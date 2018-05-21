@@ -1,6 +1,4 @@
 # Masternode-Setup-Script
-Bash script for setting up masternodes. 
-
 # Cap Coin
 Shell script to install a [CAP Masternode](https://capcoin.net/) on a Linux server running Ubuntu 16.04. Use it on your own risk.
 ***

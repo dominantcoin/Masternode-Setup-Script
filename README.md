@@ -1,5 +1,5 @@
 # Masternode-Setup-Script
-# Cap Coin
+# CAP Coin
 Shell script to install a [CAP Masternode](https://capcoin.net/) on a Linux server running Ubuntu 16.04. Use it on your own risk.
 ***
 ## Installation on vps:

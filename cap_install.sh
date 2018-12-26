@@ -2,10 +2,10 @@
 
 TMP_FOLDER=$(mktemp -d)
 CONFIG_FILE='dmtc.conf'
-CONFIGFOLDER='/root/.DMTC'
+CONFIGFOLDER='/root/.dmtc'
 COIN_DAEMON='dmtcd'
 COIN_CLI='dmtc-cli'
-COIN_PATH='/home'
+COIN_PATH='/usr/local/bin/'
 COIN_TGZ='http://188.166.101.109/download/linux/dmtc-1.0.0-x86_64-linux-gnu.tar'
 COIN_ZIP=$(echo $COIN_TGZ | awk -F'/' '{print $NF}')
 COIN_NAME='dmtc'
@@ -34,7 +34,7 @@ purgeOldInstallation() {
         sudo rm -rf ~/.dmtc> /dev/null 2>&1
     fi
     #remove binaries and dmtc utilities
-    cd /home && sudo rm dmtc-cli dmtc-tx dmtcd > /dev/null 2>&1 && cd
+    cd /usr/local/bin && sudo rm dmtc-cli dmtc-tx dmtcd > /dev/null 2>&1 && cd
     echo -e "${GREEN}* Done${NONE}";
 }
 
@@ -46,7 +46,7 @@ function download_node() {
   wget -q $COIN_TGZ
   compile_error
   tar xvzf $COIN_ZIP >/dev/null 2>&1
-  cd /home >/dev/null 2>&1
+  cd dmtc-1.0.0/bin/ >/dev/null 2>&1
   chmod +x $COIN_DAEMON $COIN_CLI
   compile_error
   cp $COIN_DAEMON $COIN_CLI $COIN_PATH
@@ -60,24 +60,19 @@ function configure_systemd() {
 [Unit]
 Description=$COIN_NAME service
 After=network.target
-
 [Service]
 User=root
 Group=root
-
 Type=forking
 #PIDFile=$CONFIGFOLDER/$COIN_NAME.pid
-
 ExecStart=$COIN_PATH$COIN_DAEMON -daemon -conf=$CONFIGFOLDER/$CONFIG_FILE -datadir=$CONFIGFOLDER
 ExecStop=-$COIN_PATH$COIN_CLI -conf=$CONFIGFOLDER/$CONFIG_FILE -datadir=$CONFIGFOLDER stop
-
 Restart=always
 PrivateTmp=true
 TimeoutStopSec=60s
 TimeoutStartSec=10s
 StartLimitInterval=120s
 StartLimitBurst=5
-
 [Install]
 WantedBy=multi-user.target
 EOF
@@ -143,9 +138,7 @@ maxconnections=256
 masternode=1
 externalip=$NODEIP:$COIN_PORT
 masternodeprivkey=$COINKEY
-
 #ADDNODES
-
 EOF
 }
 
@@ -278,4 +271,3 @@ checks
 prepare_system
 download_node
 setup_node
-

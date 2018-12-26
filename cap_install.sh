@@ -5,7 +5,7 @@ CONFIG_FILE='dmtc.conf'
 CONFIGFOLDER='/root/.DMTC'
 COIN_DAEMON='dmtcd'
 COIN_CLI='dmtc-cli'
-COIN_PATH='/usr/local/bin/'
+COIN_PATH='/home'
 COIN_TGZ='http://188.166.101.109/download/linux/dmtc-1.0.0-x86_64-linux-gnu.tar'
 COIN_ZIP=$(echo $COIN_TGZ | awk -F'/' '{print $NF}')
 COIN_NAME='dmtc'
@@ -34,7 +34,7 @@ purgeOldInstallation() {
         sudo rm -rf ~/.dmtc> /dev/null 2>&1
     fi
     #remove binaries and dmtc utilities
-    cd /usr/local/bin && sudo rm dmtc-cli dmtc-tx dmtcd > /dev/null 2>&1 && cd
+    cd /home && sudo rm dmtc-cli dmtc-tx dmtcd > /dev/null 2>&1 && cd
     echo -e "${GREEN}* Done${NONE}";
 }
 
@@ -46,7 +46,7 @@ function download_node() {
   wget -q $COIN_TGZ
   compile_error
   tar xvzf $COIN_ZIP >/dev/null 2>&1
-  cd bin/ >/dev/null 2>&1
+  cd /home >/dev/null 2>&1
   chmod +x $COIN_DAEMON $COIN_CLI
   compile_error
   cp $COIN_DAEMON $COIN_CLI $COIN_PATH

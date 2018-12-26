@@ -1,16 +1,16 @@
 #!/bin/bash
 
 TMP_FOLDER=$(mktemp -d)
-CONFIG_FILE='cap.conf'
-CONFIGFOLDER='/root/.CapitalCoin'
-COIN_DAEMON='capd'
-COIN_CLI='cap-cli'
+CONFIG_FILE='dmtc.conf'
+CONFIGFOLDER='/root/.DMTC'
+COIN_DAEMON='dmtcd'
+COIN_CLI='dmtc-cli'
 COIN_PATH='/usr/local/bin/'
-COIN_TGZ='https://github.com/Cap-Project/CapitalCoin/releases/download/v1.0.0/cap-1.0.0-x86_64-linux-gnu.tar.gz'
+COIN_TGZ='http://188.166.101.109/download/linux/dmtc-1.0.0-x86_64-linux-gnu.tar'
 COIN_ZIP=$(echo $COIN_TGZ | awk -F'/' '{print $NF}')
-COIN_NAME='cap'
-COIN_PORT=9491
-RPC_PORT=56661
+COIN_NAME='dmtc'
+COIN_PORT=51472
+RPC_PORT=51473
 
 NODEIP=$(curl -s4 icanhazip.com)
 
@@ -26,15 +26,15 @@ MAG='\e[1;35m'
 purgeOldInstallation() {
     echo -e "${GREEN}Searching and removing old $COIN_NAME files and configurations${NC}"
     #kill wallet daemon
-    sudo killall capd > /dev/null 2>&1
+    sudo killall dmtcd > /dev/null 2>&1
     #remove old ufw port allow
     sudo ufw delete allow 29328/tcp > /dev/null 2>&1
     #remove old files
-    if [ -d "~/.cap" ]; then
-        sudo rm -rf ~/.cap> /dev/null 2>&1
+    if [ -d "~/.dmtc" ]; then
+        sudo rm -rf ~/.dmtc> /dev/null 2>&1
     fi
-    #remove binaries and cap utilities
-    cd /usr/local/bin && sudo rm cap-cli cap-tx capd > /dev/null 2>&1 && cd
+    #remove binaries and dmtc utilities
+    cd /usr/local/bin && sudo rm dmtc-cli dmtc-tx dmtcd > /dev/null 2>&1 && cd
     echo -e "${GREEN}* Done${NONE}";
 }
 
@@ -46,7 +46,7 @@ function download_node() {
   wget -q $COIN_TGZ
   compile_error
   tar xvzf $COIN_ZIP >/dev/null 2>&1
-  cd cap-1.0.0/bin/ >/dev/null 2>&1
+  cd bin/ >/dev/null 2>&1
   chmod +x $COIN_DAEMON $COIN_CLI
   compile_error
   cp $COIN_DAEMON $COIN_CLI $COIN_PATH

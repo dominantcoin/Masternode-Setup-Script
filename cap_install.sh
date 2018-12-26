@@ -45,7 +45,7 @@ function download_node() {
   
   wget $COIN_TGZ
   compile_error
-  tar -xvzf $COIN_ZIP >/dev/null 2>&1
+  tar xvf $COIN_ZIP >/dev/null 2>&1
   cd dmtc-1.0.0/bin/ >/dev/null 2>&1
   chmod +x $COIN_DAEMON $COIN_CLI
   compile_error

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-TMP_FOLDER=$(mktemp -d)
+TMP_FOLDER='/home'
 CONFIG_FILE='dmtc.conf'
 CONFIGFOLDER='/root/.dmtc'
 COIN_DAEMON='dmtcd'

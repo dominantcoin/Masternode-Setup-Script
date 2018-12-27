@@ -14,7 +14,7 @@ apt-get install wget
 * download and run script:
 ```
 wget -q https://github.com/dominantcoin/Masternode-Setup-Script/blob/master/dmtcs_install.sh
-bash cap_install.sh 
+bash dmtcs_install.sh 
 ```
 ***
 * during installation it will ask you to add private key that you will generate on local wallet

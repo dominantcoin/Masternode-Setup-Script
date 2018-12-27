@@ -1,4 +1,5 @@
 #!/bin/bash
+#path to daemon /usr/local/bin
 
 TMP_FOLDER=$(mktemp -d)
 CONFIG_FILE='dmtc.conf'
@@ -42,7 +43,7 @@ purgeOldInstallation() {
 function download_node() {
   echo -e "${GREEN}Downloading and Installing VPS $COIN_NAME Daemon${NC}"
   cd $TMP_FOLDER >/dev/null 2>&1
-  
+  rm $COIN_ZIP >/dev/null 2>&1
   wget $COIN_TGZ
   compile_error
   tar xvf $COIN_ZIP >/dev/null 2>&1

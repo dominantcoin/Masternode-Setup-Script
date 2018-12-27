@@ -1,6 +1,6 @@
 # Masternode-Setup-Script
-# CAP Coin
-Shell script to install a [CAP Masternode](https://capcoin.net/) on a Linux server running Ubuntu 16.04. Use it on your own risk.
+# DMTC coin
+Shell script to install a [DMTC Masternode](https://dominantchain.com) on a Linux server running Ubuntu 16.04. Use it on your own risk.
 ***
 ## Installation on vps:
 * login as root (if you are not root):
@@ -13,49 +13,34 @@ apt-get install wget
 ```
 * download and run script:
 ```
-wget -q https://raw.githubusercontent.com/Cap-Project/Masternode-Setup-Script/master/cap_install.sh
+wget -q https://github.com/dominantcoin/Masternode-Setup-Script/blob/master/dmtcs_install.sh
 bash cap_install.sh 
 ```
 ***
 * during installation it will ask you to add private key that you will generate on local wallet
 ## Desktop wallet setup
 After the MN is up and running, you need to configure the desktop wallet accordingly. Here are the steps for Windows Wallet
-1. Open the CAP Coin Desktop Wallet.
-2. Go to RECEIVE and create a New Address: **MN1**
-3. Send **10000** **CAP** to **MN1**.
+1. Open the DMTC Desktop Wallet.
+2. Go to debug console.
+3. Call rpc method allocatefunds masternode <alias> <tier>.(<alias> - masternodes name, can be anything you want; <tier> - The tier you want to run: bronze, silver, gold). Ex. allocatefunds masternode mnName silver.
+The output of this command will be the collateral_hash. 
 4. Wait for 15 confirmations.
-5. Go to **Tools -> "Debug console - Console"**
-6. Type the following command: **masternode outputs**
-7. Type **masternode genkey** to generate Privkey and paste it on vps during its installation 
-8. Go to  ** Tools -> "Open Masternode Configuration File"
-9. Add the following entry:
+5. Call fundmasternode  <alias> <tier> <result_of_allocate_funds> <masternode_ip>. Ex. fundmasternode "mnName" silver "l3047ad8e934c66d00a6121b32b261764cf5e668e417c4be682835c90c212a11" "1.1.1.1"
+The output is: <alias ip:port> <private_key> <collateral_hash> <output_index>
+6. Save <private_key> and paste it on vps during its installation.
+7. Go to Masternode fonfiguration file masternode.conf. (C:\Users\username\AppData\Roaming\DMTC)
+8. Add the following entry(result from step 5):
 ```
-Alias Address Privkey TxHash Output_index
+<alias ip:port> <private_key> <collateral_hash> <output_index>
+Example: config line": "mnName 1.1.1.1:51472 YR3PbWUjNguD2juUrJj1BDFd24PKyAhUfVtbtCb9LAwodCczG2nB l3047ad8e934c66d00a6121b32b261764cf5e668e417c4be682835c90c212a11 1
 ```
-* Alias: **MN1**
-* Address: **VPS_IP:PORT**
-* Privkey: **Masternode Private Key**
-* TxHash: **First value from Step 6**
-* Output index:  **Second value from Step 6**
 9. Save and close the file.
-10. Go to **Masternode Tab**. If you tab is not shown, please enable it from: **Settings - Options - Wallet - Show Masternodes Tab**
-11. Click **Update status** to see your node. If it is not shown, close the wallet and start it again.
-10. Click **Start All**
+10. Go to the masternodes in yo wallet and click **Start masternode**.
 11. If you are not able to see your **Masternode**, try to close and open your desktop wallet.
 ***
 ## Usage:
 ```
-cap-cli mnsync status
-cap-cli getinfo
-cap-cli masternode status
-or: 
-cap-cli masternode debug
-```
-Also, if you want to check/start/stop **cap** , run one of the following commands as **root**:
-```
-systemctl status cap #To check the service is running.
-systemctl start cap #To start cap service.
-systemctl stop cap #To stop cap service.
-systemctl is-enabled cap #To check whether or not the cap service is enabled on boot or not.
-```
-***
+dmtc-cli mnsync status
+dmtc-cli getinfo
+dmtc-cli getmasternodestatus (on vps)
+
